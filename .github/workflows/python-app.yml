@@ -33,5 +33,5 @@ jobs:
 
     - name: Compile with pyinstaller
       run: |
-        pyinstaller --noconfirm --log-level=WARN --onefile --nowindow --icon=icon.ico --add-data="pypub/*;pypub/" --name orlldl main.py
+        pyinstaller --noconfirm --onefile --console --icon "icon.ico" --add-data "pypub;pypub/" --name orlldl "main.py"
         Compress-Archive -Path dist -DestinationPath orlldl.zip
