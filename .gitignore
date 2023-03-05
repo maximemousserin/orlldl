@@ -1,0 +1,6 @@
+/.idea
+/dist
+/venv
+*.iml
+/pypub/test_files
+/output
