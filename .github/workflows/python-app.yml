@@ -34,4 +34,4 @@ jobs:
     - name: Compile with pyinstaller
       run: |
         pyinstaller --noconfirm --log-level=WARN --onefile --nowindow --icon=icon.ico --name orlldl main.py
-        zip -r -q orlldl.zip dist
+        Compress-Archive -Path dist -DestinationPath orlldl.zip
