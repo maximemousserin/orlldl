@@ -24,40 +24,38 @@ try:
     variables.user_name = args.Username
     variables.user_password = args.Password
 
+    # init http session
+    utils.init_http_session()
+
+
+    # get epub definition data
+    data = utils.get_epub_definition_json()
+    title = data['title']
+    spine_url = data['spine']
+    spine_json = utils.get_epub_json(spine_url)
+    spine_df = pd.DataFrame(spine_json['results'])
+    files_url = data['files']
+    files_json = utils.get_epub_json(files_url)
+    files_df = pd.DataFrame(files_json['results'])
+
+
+    # init epub
+    epub = pypub.Epub(title)
+    print("Init epub", title)
+
+
+    # add chapters
+    for index, row in spine_df.iterrows():
+        chapter_title = row['title']
+        print("Add chapter", chapter_title)
+        chapter_url = files_df['url'][index]
+        c = pypub.create_chapter_from_url(chapter_url, chapter_title)
+        epub.add_chapter(c)
+
+
+    # generate epub
+    print("Generate epub", title)
+    epub.create_epub("dist")
+
 except RuntimeError as e:
     print(e)
-    exit()
-
-
-# init http session
-utils.init_http_session()
-
-
-# get epub definition data
-data = utils.get_epub_definition_json()
-title = data['title']
-spine_url = data['spine']
-spine_json = utils.get_epub_json(spine_url)
-spine_df = pd.DataFrame(spine_json['results'])
-files_url = data['files']
-files_json = utils.get_epub_json(files_url)
-files_df = pd.DataFrame(files_json['results'])
-
-
-# init epub
-epub = pypub.Epub(title)
-print("Init epub", title)
-
-
-# add chapters
-for index, row in spine_df.iterrows():
-    chapter_title = row['title']
-    print("Add chapter", chapter_title)
-    chapter_url = files_df['url'][index]
-    c = pypub.create_chapter_from_url(chapter_url, chapter_title)
-    epub.add_chapter(c)
-
-
-# generate epub
-print("Generate epub", title)
-epub.create_epub("dist")
