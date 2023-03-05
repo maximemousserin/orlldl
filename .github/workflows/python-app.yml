@@ -43,7 +43,7 @@ jobs:
         pyinstaller --noconfirm --log-level=WARN --onefile --nowindow --icon=icon.ico --name orlldl main.py
 
     - name: Add compile exe as artifact
-            uses: actions/upload-artifact@v2
-            with: 
-              name: orlldl.exe
-              path: dist/orlldl.exe
+      uses: actions/upload-artifact@v2
+      with: 
+        name: orlldl.exe
+        path: dist/orlldl.exe
