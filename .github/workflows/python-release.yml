@@ -11,23 +11,10 @@ jobs:
     name: Upload Release Asset
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
-          pip install -r requirements.txt
-
-      - name: Compile with pyinstaller
-        run: |
-          pyinstaller --noconfirm --log-level=WARN --onefile --nowindow --icon=icon.ico --name orlldl main.py
-          zip -r -q orlldl.zip dist
+      jobs:
+      - name: Build and compile
+        id: build_compile
+        uses: ./.github/workflows/python-app.yml  
     
       - name: Create Release
         id: create_release
@@ -39,6 +26,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
