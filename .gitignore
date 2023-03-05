@@ -1,6 +1,9 @@
 /.idea
 /dist
 /venv
-*.iml
 /pypub/test_files
 /output
+/build
+
+*.iml
+*.spec
