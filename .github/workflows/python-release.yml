@@ -11,6 +11,8 @@ jobs:
     name: Upload Release Asset
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Build and compile
         id: build_compile
         uses: ./.github/workflows/python-app.yml  
