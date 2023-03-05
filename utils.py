@@ -30,6 +30,8 @@ def init_http_session():
     login_url = "https://www.oreilly.com/member/auth/login/"
     login_payload = {"email": variables.user_name, "password": variables.user_password}
     response = pypub.session.post(login_url, json=login_payload)
-    jwt_token = response.json()['id_token']
-
-    pypub.session.cookies.set("orm-jwt", jwt_token, domain=".oreilly.com")
+    try:
+        jwt_token = response.json()['id_token']
+        pypub.session.cookies.set("orm-jwt", jwt_token, domain=".oreilly.com")
+    except:
+        print('Authentication error!')
